@@ -38,6 +38,8 @@ app.options('*', cors()); // include before other routes
 app.use('/', require('./controllers/index'));
 // route to /post
 app.use('/posts', require('./controllers/postController'));
+// route to /user
+app.use('/user', require('./controllers/userController'));
 
 
 // catch 404 and forward to error handler

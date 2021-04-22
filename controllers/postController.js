@@ -3,11 +3,27 @@ const postService = require('../services/postService.js');
 
 // Auth0
 const { authConfig, checkJwt, checkAuth } = require('../middleware/jwtAuth.js');
+const userService = require("../services/userService.js");
 
 // GET listing of all posts
 // Address http://server:posts
 // returns JSON
 router.get('/', async (req, res) => {
+
+    // Get info from user profile
+    // if logged in (therefore access token exists)
+    // get token from request
+    if (req.headers['authorization']) {
+        try {
+
+            let token = await req.headers['authorization'].replace('Bearer ', '');
+            const userProfile = await userService.getAuthUser(token);
+            console.log("%c user profile: ", 'color: blue', userProfile);
+            console.log("%c user email: ", 'color: blue', userProfile.email);
+        } catch (err) {
+            console.log(`ERROR getting user profile: ${err.message}`);
+        }
+    }
 
     // Get all posts
     try {
@@ -45,8 +61,9 @@ router.get('/:id', async (req, res) => {
         res.send(err.message);
     }
 });
-
-router.post('/', async (req, res) => {
+// checkJwt authenticatesd the user - did the request contain a valid JWT?
+// chekAuth checks permissions - does the JWT include create:posts (authConfig.create)rss
+router.post('/', checkJwt, checkAuth([authConfig.create]), async (req, res) => {
 
     // Request body contains the post data
     const newPost = req.body;
