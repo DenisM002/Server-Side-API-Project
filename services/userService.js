@@ -19,7 +19,7 @@ let getAuthUser = async (accessToken) => {
     return user.data;
 }
 
-// Returns user email address (put in post table in DB)
+// Returns user email address
 let getAuthUserEmail = async (accessToken) => {
 
   // Get user info from Auth0

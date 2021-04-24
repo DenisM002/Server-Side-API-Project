@@ -13,6 +13,10 @@ router.get('/', async (req, res) => {
     // Get info from user profile
     // if logged in (therefore access token exists)
     // get token from request
+
+    // Authorisation works on users with Roles added through Auth0 dashboard.
+    // Cannot figure out how to give new registered users permissions. I have tried many ways.
+    /*
     if (req.headers['authorization']) {
         try {
 
@@ -24,6 +28,7 @@ router.get('/', async (req, res) => {
             console.log(`ERROR getting user profile: ${err.message}`);
         }
     }
+    */
 
     // Get all posts
     try {
@@ -63,7 +68,11 @@ router.get('/:id', async (req, res) => {
 });
 // checkJwt authenticatesd the user - did the request contain a valid JWT?
 // chekAuth checks permissions - does the JWT include create:posts (authConfig.create)rss
-router.post('/', checkJwt, checkAuth([authConfig.create]), async (req, res) => {
+
+// Authorisation works on users with Roles added through Auth0 dashboard.
+// Cannot figure out how to give new registered users permissions. I have tried many ways.
+//router.post('/', checkJwt, checkAuth([authConfig.create]), async (req, res) => {
+router.post('/', async (req, res) => {
 
     // Request body contains the post data
     const newPost = req.body;
@@ -82,8 +91,10 @@ router.post('/', checkJwt, checkAuth([authConfig.create]), async (req, res) => {
         res.send(err.message);
     }
 });
-
-router.put('/',  checkJwt, checkAuth([authConfig.update]), async (req, res) => {
+// Authorisation works on users with Roles added through Auth0 dashboard.
+// Cannot figure out how to give new registered users permissions. I have tried many ways.
+// router.put('/',  checkJwt, checkAuth([authConfig.update]), async (req, res) => {
+router.put('/', async (req, res) => {
     // Request body contains the post data
     const post = req.body;
     // show what was copied in the console (server side)
@@ -104,7 +115,11 @@ router.put('/',  checkJwt, checkAuth([authConfig.update]), async (req, res) => {
 
 // DELETE single post by id.
 // Takes in ONLY the id of the post from the client!!
-router.delete('/:id', checkJwt, checkAuth([authConfig.delete]), async (req, res) => {
+
+// Authorisation works on users with Roles added through Auth0 dashboard.
+// Cannot figure out how to give new registered users permissions. I have tried many ways.
+ //router.delete('/:id', checkJwt, checkAuth([authConfig.delete]), async (req, res) => {
+router.delete('/:id', async (req, res) => {
     // read value of id parameter from the request url
     const postId = req.params.id;
     // If validation passed execute query and return results
