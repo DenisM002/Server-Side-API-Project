@@ -38,7 +38,7 @@ let getPosts = async () => {
 
         // first element of the recordset contains posts
         posts = result.recordset[0];
-        console.log(posts);
+        //console.log(posts);
 
         // Catch and log errors to cserver side console 
     } catch (err) {

@@ -83,7 +83,7 @@ router.post('/', checkJwt, checkAuth([authConfig.create]), async (req, res) => {
     }
 });
 
-router.put('/', async (req, res) => {
+router.put('/',  checkJwt, checkAuth([authConfig.update]), async (req, res) => {
     // Request body contains the post data
     const post = req.body;
     // show what was copied in the console (server side)
@@ -104,7 +104,7 @@ router.put('/', async (req, res) => {
 
 // DELETE single post by id.
 // Takes in ONLY the id of the post from the client!!
-router.delete('/:id', async (req, res) => {
+router.delete('/:id', checkJwt, checkAuth([authConfig.delete]), async (req, res) => {
     // read value of id parameter from the request url
     const postId = req.params.id;
     // If validation passed execute query and return results
