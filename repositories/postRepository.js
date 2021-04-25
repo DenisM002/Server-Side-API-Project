@@ -10,9 +10,9 @@ const { sql, dbConnPoolPromise } = require('../database/db.js');
 // for json path - Tell MS SQL to return results as JSON (avoiding the need to convert here)
 const SQL_SELECT_ALL = 'SELECT * FROM dbo.post ORDER BY _id DESC for json path;';
 // Create a new post and return result
-const SQL_INSERT = 'INSERT INTO dbo.post (post_title, post_body) VALUES (@postTitle, @postBody); SELECT * from dbo.post WHERE _id = SCOPE_IDENTITY();';
+const SQL_INSERT = 'INSERT INTO dbo.post (post_title, post_body, user_id) VALUES (@postTitle, @postBody, @userID); SELECT * from dbo.post WHERE _id = SCOPE_IDENTITY();';
 // Update existing post
-const SQL_UPDATE = 'UPDATE dbo.post SET post_title = @postTitle, post_body = @postBody WHERE _id = @id; SELECT * FROM dbo.post WHERE _id = @id;';
+const SQL_UPDATE = 'UPDATE dbo.post SET post_title = @postTitle, post_body = @postBody, user_id = @userID WHERE _id = @id; SELECT * FROM dbo.post WHERE _id = @id;';
 // Delete existing post
 const SQL_DELETE = 'DELETE FROM dbo.post WHERE _id = @id;';
 // Get a single product matching a id, @id
@@ -62,7 +62,8 @@ let createPost = async (post) => {
             // checks for potential sql injection
             .input('postTitle', sql.NVarChar, post.post_title)
             .input('postBody', sql.NVarChar, post.post_body)
-                
+            .input('userID', sql.NVarChar, post.user_id)
+            
             // Execute Query
             .query(SQL_INSERT)
 
@@ -90,6 +91,8 @@ let updatePost = async (post) => {
             .input('id', sql.Int, post._id)
             .input('postTitle', sql.NVarChar, post.post_title)
             .input('postBody', sql.NVarChar, post.post_body)
+            .input('userID', sql.NVarChar, post.user_id)
+
                 
             // Execute Query
             .query(SQL_UPDATE)

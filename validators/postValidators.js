@@ -35,7 +35,9 @@ let validatePost = (formPost) => {
         baseValidator.id(postID) &&
         //validator.isNumeric(formPost._id + '', { no_symbols: true, allow_negatives: false }) &&
         !validator.isEmpty(formPost.post_title) &&
-        !validator.isEmpty(formPost.post_body)) {
+        !validator.isEmpty(formPost.post_body) &&
+        !validator.isEmpty(formPost.user_id))
+        {
 
         // Validation passed
         // create a new post instance based on post model object
@@ -45,6 +47,8 @@ let validatePost = (formPost) => {
             // escape is to sanitize - it removes/ encodes any html tags
             validator.escape(formPost.post_title),
             validator.escape(formPost.post_body),
+            validator.escape(formPost.user_id),
+            
         );
 
     } else {
